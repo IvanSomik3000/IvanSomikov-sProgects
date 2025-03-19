@@ -1,8 +1,11 @@
 import turtle
-import time
+import tkinter as tk
+from tkinter import simpledialog
+
 t = turtle.Pen()
 t.speed(0)
 t.up()
+
 def draw_board():
     t.goto(-50, 150)
     t.down()
@@ -20,6 +23,7 @@ def draw_board():
     t.down()
     t.goto(150, -50)
     t.up()
+
 def check_win(player):
     win_conditions = [
         [q1, q2, q3], [q4, q5, q6], [q7, q8, q9],
@@ -30,6 +34,7 @@ def check_win(player):
         if all(cell == player for cell in condition):
             return True
     return False
+
 def draw_x(x, y):
     t.goto(x - 40, y + 40)
     t.down()
@@ -39,16 +44,24 @@ def draw_x(x, y):
     t.down()
     t.goto(x - 40, y - 40)
     t.up()
+
 def draw_o(x, y):
     t.goto(x, y - 40)
     t.down()
     t.circle(40)
     t.up()
+
 q1 = q2 = q3 = q4 = q5 = q6 = q7 = q8 = q9 = ''
+
 draw_board()
+
+def get_input(player):
+    root = tk.Tk()
+    root.withdraw()
+    return simpledialog.askinteger("Ввод", f"Ход {player}: Введите номер клетки (1-9):")
+
 while True:
-    # Ход игрока X
-    XxX = int(input('Ход X: Введите номер клетки (1-9): '))
+    XxX = get_input("X")
     if XxX == 1 and q1 == '':
         q1 = 'X'
         draw_x(-100, 100)
@@ -77,14 +90,15 @@ while True:
         q9 = 'X'
         draw_x(100, -100)
     else:
-        print('Ошибка: клетка уже занята или неверный номер. Пропуск хода!')
         continue
+
     if check_win('X'):
         t.goto(0, -200)
         t.write('X победил!!!', align="center", font=("Arial", 24, "normal"))
         time.sleep(1)
         break
-    OoO = int(input('Ход O: Введите номер клетки (1-9): '))
+
+    OoO = get_input("O")
     if OoO == 1 and q1 == '':
         q1 = 'O'
         draw_o(-100, 100)
@@ -113,11 +127,12 @@ while True:
         q9 = 'O'
         draw_o(100, -100)
     else:
-        print('Ошибка: клетка уже занята или неверный номер. Пропуск хода!')
         continue
+
     if check_win('O'):
         t.goto(0, -200)
         t.write('O победил!!!', align="center", font=("Arial", 24, "normal"))
         time.sleep(1)
         break
+
 turtle.done()
