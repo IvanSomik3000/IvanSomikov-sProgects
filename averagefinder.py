@@ -23,4 +23,4 @@ while True:
             print("Не написано оценок.")
         else:
             print("Средняя: ", find_second())
-        break
+        numbers = []
